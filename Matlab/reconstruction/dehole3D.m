@@ -1,36 +1,77 @@
-function result = dehole3D(img_norm,img_inter)
-denoise_img_norm = medfilt2(img_norm);denoise_img_norm = medfilt2(denoise_img_norm);
-denoise_img_inter = medfilt2(img_inter);denoise_img_inter = medfilt2(denoise_img_inter);
+% %function result = dehole3D(img_norm,img_inter)
+% denoise_img_norm = medfilt2(img_norm);denoise_img_norm = medfilt2(denoise_img_norm);
+% denoise_img_inter = medfilt2(img_inter);denoise_img_inter = medfilt2(denoise_img_inter);
+% 
+% denoise_img_inter_mask = denoise_img_inter;
+% denoise_img_inter_mask(find(denoise_img_inter_mask ~= 0 )) = 1;
+% PlusImg = double(denoise_img_inter_mask) + denoise_img_norm;
+% mask1 = [0 1 0;1 1 1;0 1 0];
+% mask2 = [1 1 1;1 1 1;1 1 1];
+% PlusIMG_pad = padarray(PlusImg,[1,1],'both');
+% [row1, coloum1] = size(PlusIMG_pad);
+% judge = 1;
+% while judge == 1
+%     k = 0;
+%     for i = 2:row1-1
+%         for j = 2:coloum1-1
+%             check_block = PlusIMG_pad(i-1:i+1,j-1:j+1);
+%             check = check_block.*mask1;
+%             if ~isempty(find(check == 2)) && ~isempty(find(check == 1))
+%                 PlusIMG_pad(i,j)=2;
+%                 k = k+1;
+%             end
+%         end
+%     end
+%     if k ~= 0
+%         judge = 1;
+%     else 
+%         judge = 0;
+%     end
+% end
 
-denoise_img_inter_mask = denoise_img_inter;
-denoise_img_inter_mask(find(denoise_img_inter_mask ~= 0 )) = 1;
-PlusImg = denoise_img_inter_mask + denoise_img_norm;
-mask1 = [0 1 0;1 1 1;0 1 0];
-mask2 = [1 1 1;1 1 1;1 1 1];
-PlusIMG_pad = padarray(PlusImg,[1,1],'both');
-[row1, coloum1] = size(PlusIMG_pad);
-judge = 1;
-while judge == 1
-    k = 0;
-    for i = 2:row1-1
-        for j = 2:coloum1-1
-            check_block = PlusIMG_pad(i-1:i+1,j-1:j+1);
-            check = check_block*mask1;
-            if ~isempty(find(check == 2)) && ~isempty(find(check == 1))
-                PlusIMG_pad(i,j)=2;
-                k = k+1;
-            end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+PlusIMG_pad1=PlusIMG_pad;
+PlusIMG_pad1(find(PlusIMG_pad1 ~= 2 & PlusIMG_pad1 ~= 1))=0;
+PlusIMG_pad1(find(PlusIMG_pad1 ~= 0))=1;
+for i = 2:row1-1
+    for j = 2:coloum1-2
+        check_block = PlusIMG_pad(i-1:i+1,j-1:j+1);
+        check = check_block.*mask1;
+        if ~isempty(find(check == 2))
+            PlusIMG_pad1(i,j) = 2;
+            i;j;
         end
     end
-    if k ~= 0
-        judge = 1;
-    else 
-        judge = 0;
-    end
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-mask_result = PlusIMG_pad(2:end-1,2:end-1);
+mask_result = PlusIMG_pad1(2:end-1,2:end-1);
 mask_result(find(mask_result ~=2 ))=0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %% dehole
 [row,coloum] = size(mask_result);
@@ -71,6 +112,6 @@ for i = 1:coloum
     end
 end
 result = uint8(result);
-% figure
-% imshow(result);
+figure
+imshow(result);
 
