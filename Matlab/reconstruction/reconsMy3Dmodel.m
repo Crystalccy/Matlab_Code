@@ -31,7 +31,7 @@ Recons1 = Recons/k;
 Recons1(find(Recons1<(ceil(M1+M2+M3)/2)))=0;
 figure
 clf
-isosurface(Recons1)
+isosurface(Recons1(1:2:end,1:2:end,1:2:end))
 axis equal;
 xlabel('x')
 ylabel('y')
@@ -39,7 +39,7 @@ zlabel('z')
 
 figure
 clf
-isosurface(A);
+isosurface(A(1:2:end,1:2:end,1:2:end));
 axis equal;
 xlabel('x')
 ylabel('y')
