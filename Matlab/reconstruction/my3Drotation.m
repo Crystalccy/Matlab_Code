@@ -3,7 +3,6 @@ len = size(IMG3D,2);
 width = size(IMG3D,3);
 hight = size(IMG3D,1);
 theta = Angle(1);%*pi/180;
-tau = Angle(2);
 size_ro = ceil(sqrt(len^2+width^2))+4;
 
 % add_width = ceil((size_ro-width)/2);
@@ -12,7 +11,7 @@ size_ro = ceil(sqrt(len^2+width^2))+4;
 % 
 pre_result = zeros(size_ro,size_ro,size_ro);
 
-% figure;
+% figure;rotate3D
 % clf;
 % isosurface(IMG3D);
 % xlabel('x')

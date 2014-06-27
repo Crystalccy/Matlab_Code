@@ -1,11 +1,11 @@
-clear
-clc
-addpath('database');
-load('matlab.mat');
+% clear
+% clc
+% addpath('database');
+% load('heimeiziv1.mat');
 %
 [Len1,Len2] = size(Proj_img1{1});
 for i = 1:length(Proj_img1)
-    IMG = Proj_img1{i};
+    IMG = Proj_img2{i};
     IMG_temp1 = myfilter(IMG,Len1);
     IMG_temp2 = myfilter(IMG',Len2);
     Filtered_transIMG2{i} = IMG_temp2'+IMG_temp1+IMG;

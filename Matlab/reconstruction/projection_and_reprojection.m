@@ -3,11 +3,11 @@ clc
 %% ---improting original image------- 
 % IMG = phantom(128);
 
-IMG = double(imread('sqim.gif'));
+% IMG = double(imread('sqim.gif'));
 
-% x = [63 186 54 190 63];
-% y = [60 60 209 204 60];
-% IMG = poly2mask(x,y,256,256);
+x = [63 186 54 190 63];
+y = [60 60 209 204 60];
+IMG = poly2mask(x,y,256,256);
 % 
 Theta = 0:180;
 
@@ -30,7 +30,8 @@ tranIMG_noise_norm = imnoise(tranIMG_noise_norm,'salt & pepper',0.02);
 
 %% ------ denoise and dehole --------------------
 
-de_IMG = dehole1(double(tranIMG_noise_norm),double(tranIMG_noise_inter));
+% de_IMG = dehole1(double(tranIMG_noise_norm),double(tranIMG_noise_inter));
+de_IMG = dehole3D(double(tranIMG_noise_norm),double(tranIMG_noise_inter));
 
 % [thr,sorh,keepapp] = ddencmp('den','wv',tranIMG_noise);
 % tranIMG_denoise = wdencmp('gbl',tranIMG_noise,'sym4',2,thr,sorh,keepapp);
@@ -59,7 +60,7 @@ imshow(tranIMG_noise_inter);
 title('noised transImage1');
 
 subplot(2,3,4);
-imshow((de_IMG));
+imshow((de_IMG/max(max(de_IMG))));
 title('denoised and deholed transImage1');
 
 subplot(2,3,5);
@@ -69,7 +70,8 @@ title('reconstructed image1');
 %% ---------compared normal -----------------------
 %% --------- denoise and dehole --------------------
 
-de_IMG = dehole1(double(tranIMG_noise_norm),double(tranIMG_noise_norm));
+% de_IMG = dehole1(double(tranIMG_noise_norm),double(tranIMG_noise_norm));
+de_IMG = dehole3D(double(tranIMG_noise_norm),double(tranIMG_noise_norm));
 
 % [thr,sorh,keepapp] = ddencmp('den','wv',tranIMG_noise);
 % tranIMG_denoise = wdencmp('gbl',tranIMG_noise,'sym4',2,thr,sorh,keepapp);
@@ -98,7 +100,7 @@ imshow(tranIMG_noise_norm);
 title('noised transImage2');
 
 subplot(2,3,4);
-imshow(double(de_IMG));
+imshow(double(de_IMG/max(max(de_IMG))));
 title('denoised and deholed transImage2');
 
 subplot(2,3,5);
@@ -108,7 +110,8 @@ title('reconstructed image2');
 %% ------------------- compared inter --------------------
 %% ------ denoise and dehole --------------------
 
-de_IMG = dehole1(double(tranIMG_noise_inter),double(tranIMG_noise_inter));
+% de_IMG = dehole1(double(tranIMG_noise_inter),double(tranIMG_noise_inter));
+de_IMG = dehole3D(double(tranIMG_noise_inter),double(tranIMG_noise_inter));
 
 % [thr,sorh,keepapp] = ddencmp('den','wv',tranIMG_noise);
 % tranIMG_denoise = wdencmp('gbl',tranIMG_noise,'sym4',2,thr,sorh,keepapp);
@@ -137,7 +140,7 @@ imshow(tranIMG_noise_inter);
 title('noised transImage3');
 
 subplot(2,3,4);
-imshow((de_IMG));
+imshow((de_IMG/max(max(de_IMG))));
 title('denoised and deholed transImage3');
 
 subplot(2,3,5);
