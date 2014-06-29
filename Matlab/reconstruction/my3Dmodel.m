@@ -1,20 +1,21 @@
 clear
 clc
-
+SavePATH = './database/ImgProjection/';
+% name = [SavePATH,'SAMuser',num2str(userNum(i)),'.mat'];
 a = ones(23,45,33);
 b = ones(20,20,20);
 A = zeros(67,67,67);
 %A(33-11:33+11,33-22:33+22,33-16:33+16)=a;
-A(2:24,2:46,2:34)=a;
-A(12:31,47:66,22:41)=b;
+A(19:41,2:46,16:48)=a;
+A(29:48,47:66,36:55)=b;
 
 % addpath('database');
 % load('v1.mat');
 % angle(:,1)=1:10:180;
 % angle(:,2)=1:10:180;
 k = 1;
-for i = 1:2:180
-    for j = 1:2:180
+for i = 1:1:180
+    for j = 1:1
         angle(k,1)=i;
         angle(k,2)=j;
         k = k+1;
@@ -31,14 +32,19 @@ zlabel('z')
 
 for i = 1:length(angle(:,1))
     Rot_img = my3Drotation(A,angle(i,:));
-    Rot3D{i} = Rot_img;
+    % Rot3D{i} = Rot_img;
     proj_img = zeros(size(Rot_img(:,:,1)));
     for j = 1:size(Rot_img,3)
         proj_img = proj_img + Rot_img(:,:,j);
     end
-    Proj_img1{i}=proj_img;
+    Proj_img1=proj_img;
     proj_img(find(proj_img~=0))=1;
-    Proj_img2{i}= proj_img;
+    Proj_img2= proj_img;
+    Pic.inte = Proj_img1;
+    Pic.normal = Proj_img2;
+    Pic.angle = angle(i,:);
+    name = [SavePATH,'Pic',num2str(i),'.mat'];
+    save(name,'Pic');
     i
 end
     

@@ -3,23 +3,34 @@
 % addpath('database');
 % load('heimeiziv1.mat');
 %
-[Len1,Len2] = size(Proj_img1{1});
-for i = 1:length(Proj_img1)
-    IMG = Proj_img2{i};
+LoadPATH = './database/ImgProjection/';
+SavePATH = './database/temp_data/';
+
+for i = 1:181 %length(Proj_img1)
+    name_load_original = [LoadPATH,'Pic',num2str(i),'.mat'];
+    load(name_load_original);
+    IMG = Pic.normal;
+    [Len1,Len2] = size(IMG);
     IMG_temp1 = myfilter(IMG,Len1);
     IMG_temp2 = myfilter(IMG',Len2);
-    Filtered_transIMG2{i} = IMG_temp2'+IMG_temp1+IMG;
+    Filtered_transIMG2 = IMG_temp2'+IMG_temp1+IMG;
+    name_save = [SavePATH,'Filtered_transIMG2',num2str(i),'mat'];
+    save(name_save,'Filtered_transIMG2');
 end
 k = 0;
-depth = max(size(Proj_img1{1}));
-for j = 1:10:length(Proj_img1)
+depth = max(size(IMG));
+for j = 1:10:length(IMG)
+    name_load_original = [LoadPATH,'Pic',num2str(j),'.mat'];
+    name_load_temp = [SavePATH,'Filtered_transIMG2',num2str(j),'mat'];
+    load(name_load_original);
+    load(name_load_temp);
     for i = 1:depth
-        Filtered_IMG3D(:,:,i) = Filtered_transIMG2{j};
+        Filtered_IMG3D(:,:,i) = Filtered_transIMG2;
     end
     if j == 1
-        Recons = my3DRerotation(Filtered_IMG3D,-angle(j,:));
+        Recons = my3DRerotation(Filtered_IMG3D,-Pic.angle);
     else
-        Recons = Recons + my3DRerotation(Filtered_IMG3D,-angle(j,:));
+        Recons = Recons + my3DRerotation(Filtered_IMG3D,-Pic.angle);
     end
     k = k+1;
 end
