@@ -6,7 +6,7 @@
 LoadPATH = './database/ImgProjection/';
 SavePATH = './database/temp_data/';
 
-for i = 1:181 %length(Proj_img1)
+for i = 1:73 %length(Proj_img1)
     name_load_original = [LoadPATH,'Pic',num2str(i),'.mat'];
     load(name_load_original);
     IMG = Pic.normal;
@@ -19,7 +19,7 @@ for i = 1:181 %length(Proj_img1)
 end
 k = 0;
 depth = max(size(IMG));
-for j = 1:10:length(IMG)
+for j = 1:73
     name_load_original = [LoadPATH,'Pic',num2str(j),'.mat'];
     name_load_temp = [SavePATH,'Filtered_transIMG2',num2str(j),'mat'];
     load(name_load_original);
@@ -32,7 +32,7 @@ for j = 1:10:length(IMG)
     else
         Recons = Recons + my3DRerotation(Filtered_IMG3D,-Pic.angle);
     end
-    k = k+1;
+    k = k+1
 end
 M1 = max(max(IMG_temp1));
 M2 = max(max(IMG_temp2));
@@ -48,10 +48,10 @@ xlabel('x')
 ylabel('y')
 zlabel('z')
 
-figure
-clf
-isosurface(A(1:2:end,1:2:end,1:2:end));
-axis equal;
-xlabel('x')
-ylabel('y')
-zlabel('z')
+% figure
+% clf
+% isosurface(A(1:2:end,1:2:end,1:2:end));
+% axis equal;
+% xlabel('x')
+% ylabel('y')
+% zlabel('z')
