@@ -1,7 +1,8 @@
-function result = prospRecons(IMG,Angle,D_cam)
-f = 30;
+function result1 = prospRecons(IMG,Angle,D_cam)
+f = 20;
 pad = D_cam-f;
-pad_IMG = padarray(IMG,[pad,pad],'both');
+pad_IMG1 = padarray(IMG,[pad,pad],'both');
+pad_IMG = myfilter(pad_IMG1,size(pad_IMG1,2));
 len1 = size(IMG,1);
 len2 = size(pad_IMG,1);
 result = zeros(len2,len2);
@@ -16,13 +17,15 @@ for i = 1:length(Angle)
         % temp_result(row,P)
         temp_result(row,Px(P)+pad) = Line(Pos(P));
     end
-    delaAndero = prosDehole(temp_result);
+    %delaAndero = prosDehole(temp_result);
     %Len = size(delaAndero,1);
     %delaAndero1 = myfilter(delaAndero,Len);
 
-    result = result + imrotate(delaAndero,-Angle(i),'bilinear','crop');
+    result = result + imrotate(temp_result,-Angle(i),'bilinear','crop');
     i
 end
+result1 = result(ceil(len2/2-len1/2):end-ceil(len2/2-len1/2),...
+                 ceil(len2/2-len1/2):end-ceil(len2/2-len1/2));
 end
 
 function result = prosDehole(IMG1)

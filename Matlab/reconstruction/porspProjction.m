@@ -10,6 +10,7 @@ result.trans = zeros(Len_angle,size(Pad_IMG,2));
 %result.trans = zeros(size(Pad_IMG,1),size(Pad_IMG,2));
 for i = 1:Len_angle
     Temp_IMG = imrotate(Pad_IMG,angle(i),'bilinear','crop');
+    Temp_IMG(find(Temp_IMG>0))=1;
     for row = 1:size(Pad_IMG,1)
         for coloum = 1:size(Pad_IMG,2)
             pos = f*(coloum-1-size(Pad_IMG,2)/2)/(D_cam(i)+row-1)+size(Pad_IMG,2)/2;
@@ -17,10 +18,10 @@ for i = 1:Len_angle
                 result.pos(coloum) = pos;
             end
             
-            if rem(pos,1)==0
+            %if rem(pos,1)==0
                 %result.trans(row,result.pos(coloum)) = result.trans(row,result.pos(coloum))+Temp_IMG(row,coloum);
-                result.trans(i,pos) = result.trans(i,pos)+Temp_IMG(row,coloum);
-            end
+                result.trans(i,round(pos)) = result.trans(i,round(pos))+Temp_IMG(row,coloum);
+            %end
             
         end
     end
