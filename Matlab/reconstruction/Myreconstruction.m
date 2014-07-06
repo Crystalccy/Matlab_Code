@@ -16,6 +16,7 @@ y = rot90(x);
 for i=1:length(Theta)
     Line = Filtered_transIMG(:,i);
     t = round(x*cosTheta(i) + y*sinTheta(i));
-    reconIMG = reconIMG + Line(t+mid);    
+    reconIMG = reconIMG + Line(t+mid);
+    imshow(Line(t+mid))
 end
 reconIMG = reconIMG*pi/(2*length(Theta));

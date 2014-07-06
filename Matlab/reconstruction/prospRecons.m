@@ -1,17 +1,17 @@
 function result = prospRecons(IMG,Angle,D_cam)
 f = 20;
 pad = max(D_cam)-f;
-Filtered_img = myfilter(IMG,size(IMG,1));
+%Filtered_img = myfilter(IMG,size(IMG,1));
 len1 = size(IMG,1);
 Len = len1+pad*2;
 result = zeros(Len,Len);
 mid = ceil(Len/2);
-pad_IMG1 = padarray(Filtered_img,[pad,pad],'both');
+pad_IMG1 = padarray(IMG,[pad,pad],'both');
 pad_IMG = pad_IMG1(:,pad+1:end-pad);
 for i = 1:length(Angle)
     temp_result = zeros(Len,Len);
     Line = pad_IMG(:,i);
-    imshow(Line);
+    %imshow(Line);
     Pos = find(Line~=0);
     diff = max(D_cam)-D_cam(i);
     for row = (1+diff):(Len-diff)
@@ -24,11 +24,11 @@ for i = 1:length(Angle)
     %Len = size(delaAndero,1);
     %delaAndero1 = myfilter(delaAndero,Len);
     rotate =  imrotate(temp_result,-Angle(i),'bilinear','crop');
-    %imshow(temp_result);
+    %imshow(temp_result/max(max(temp_result)));
     result = result + rotate;
     i
 end
-result = result*pi/(2*length(Angle));
+result = result/(2*length(Angle));
 %result1 = result(ceil(len2/2-len1/2):end-ceil(len2/2-len1/2),...
 %                 ceil(len2/2-len1/2):end-ceil(len2/2-len1/2));
 end
