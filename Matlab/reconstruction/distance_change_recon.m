@@ -21,7 +21,7 @@ for i = 1:coloum
     len = (length(A1)*length(B));
     if length(B) > 1
         inter = 1/length(A1);
-        intered_line = interp1(B,1:inter:length(B),'spline');
+        intered_line = interp1(B,1:inter:length(B),'pchip');
         subinter = len/length(A1)-1;
         result_line = intered_line(1:subinter:end);
         result(Px(low):Px(high),i)=result_line(1:length(A1));
